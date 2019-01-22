@@ -1,5 +1,5 @@
 #Particles
-# simulate te behaviour of simple particles in empty space
+# simulate behaviour of simple particles in empty space
 
 import random
 import matplotlib.pyplot as plt
@@ -81,7 +81,7 @@ def if_near(particle1,particle2):
     else:
         return False
 
-#extract tuples with indices of colliding particles
+#extract lists with incidexes of colliding particles
 def particles_collision(particles_list):
     collisions = []
     for i in range(0,particles_num - 1):
@@ -142,12 +142,6 @@ for i in range(iterations):
     fig.canvas.draw_idle()
     plt.pause(t_step)
     
-reward = 0
-for i in range(0,particles_num - 1):
-    if particles_list[i].near:
-        reward = reward +1
-
-print("iterations: %i \nnum of particles %i \nreward %i" % (iterations,particles_num,reward))
 plt.waitforbuttonpress()
 
 
