@@ -1,5 +1,5 @@
-#an agent is trained to be able to move control the movements of a simple particle 
-#and keep a safety distance from a target point T
+#an agent is trained to be able to control the movements of a simple particle 
+#it keeps its position in a certain range from target T controlling x and y components of its speed
 #
 #interesting discussions on the concepts used here can be found at adventuresinmachinelearning.com
 
@@ -19,7 +19,8 @@ class particle_sim:
         self.Tx = 2*random.random()
         self.Ty = 2*random.random()
         self.state = 0
-
+        
+    #calculate system state computing distance between X and target T
     def get_state(self):
         R = (self.X - self.Tx)*(self.X - self.Tx) + (self.Y - self.Ty)*(self.Y - self.Ty)
         if R >= 1 and R < 2:
@@ -30,7 +31,8 @@ class particle_sim:
             self.state = 2
         if R <= 0.1 :            
             self.state = 3
-
+            
+    #change speed of X depending on action chosen
     def step(self,a):
         if a == 0:
             self.vx = self.vx
@@ -47,7 +49,7 @@ class particle_sim:
         self.X = self.X + self.vx*t_step
         self.Y = self.Y + self.vy*t_step
 
-
+    #calculate reward
     def reward(self):
         if self.state == 0:
             return 1
@@ -57,7 +59,8 @@ class particle_sim:
             return 2
         if self.state == 3:
             return -10
-
+        
+    #end game condition
     def end_game(self):
         if self.state == 3:
             return True
@@ -125,7 +128,7 @@ def sum_reward_agent(wins,num_episodes=2):
         del p
     return r_table
 
-#an agent based on Q-learning that consider future reward with a discount factor
+#an agent based on Q-learning that considers future reward with a discount factor
 
 def q_learning(wins,num_episodes=2):
     #Q-learning agent
@@ -176,12 +179,13 @@ rewards_eval = []
 #training phase
 #m_table = sum_reward_agent(wins,episodes)
 m_table = q_learning(wins,episodes)
-#evaluation phase
-for i in range(0,100):
-    rewards_eval.append(run_game(m_table))
-    
 
 print("Wins in training: %f\n" % (100*sum(wins)/episodes))
+
+#evaluation phase
+#to evaluate agent performance 100 games are played
+for i in range(0,100):
+    rewards_eval.append(run_game(m_table))
 
 plt.subplot(211)
 plt.plot(wins,label='win during training')
