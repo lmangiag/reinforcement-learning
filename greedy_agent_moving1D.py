@@ -1,4 +1,4 @@
-#an agent is trained with q-learning algorithm to be able to control 
+#an agent is trained with a reward-based algorithm to be able to control 
 #a simple particle in 1D and avoid collision with an object o
 #
 #the state is computed calculating relative distance between particle X and o
